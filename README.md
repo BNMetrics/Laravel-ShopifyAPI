@@ -35,7 +35,7 @@ Register the service provider in your `app/config/app.php`:
 
 ```php
 "providers" => [
-   ...
+   // other providers...
    BNMetrics\Shopify\ShopifyServiceProvider::class,
 ]
 ```
@@ -43,7 +43,7 @@ Also add the `Shopify` facade in your `aliases` array in `app/config/app.php`:
 
 ```php
 "aliases" => [
-   ...
+   // other facades...
    'Shopify' => BNMetrics\Shopify\Facade\ShopifyFacade::class,
 ] 
 ```
