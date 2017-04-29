@@ -13,7 +13,7 @@ Or add to your Laravel project composer.json file:
 
 ```json
 "require": {
-    // other packages...
+
     "bnmetrics/laravel-shopify-api" : "~1.0",
 }
 ```
