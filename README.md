@@ -77,10 +77,14 @@ Class myShopify extends Controller
     $state = $request->get('state');
     $request->session()->put('state',$state);
     
+    // Get user data, you can store it in the data base
+    $user = $this->foo->auth()->getUser();
+    
     return $this->foo->auth()->response('products.json', ['fields'=>'id,images,title']);
   }
 }
 ```
+
 Note: As I have been encountering the InvalidStateException from Laravel Socialite, I have not yet found a way around except for setting the state the same as the session in the controller.
 
 Next you will need to make two routes:
