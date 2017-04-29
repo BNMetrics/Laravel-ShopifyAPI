@@ -46,6 +46,17 @@ class Shopify extends ShopifyAuth
         return $this;
     }
 
+    /**
+     * get user object, auth() has to be called first
+     *
+     * @return Object
+     */
+    public function getUser()
+    {
+        if($this->user != null) return $this->user;
+        else throw new Exception("Must authenticate first!");
+    }
+
 
     /**
      * Get the response from Shopify API Call

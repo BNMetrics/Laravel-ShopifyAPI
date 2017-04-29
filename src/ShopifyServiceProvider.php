@@ -16,8 +16,8 @@ class ShopifyServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/../config/shopify.php' => config_path('shopify.php')
-        ]);
+            __DIR__ . '/config/shopify.php' => config_path('shopify.php')
+        ], 'shopify');
     }
 
     /**
