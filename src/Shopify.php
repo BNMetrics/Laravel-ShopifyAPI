@@ -34,7 +34,7 @@ class Shopify extends ShopifyAuth
         $this->requestPath = $this->requestPath();
 
         return $this;
-    }
+    } 
 
     /**
      * @return $this with validated user info
@@ -103,6 +103,20 @@ class Shopify extends ShopifyAuth
     protected function getAllScopes()
     {
         return config( 'shopify.scopes' );
+    }
+
+    /**
+     * this method is for when you need to make an embedded shopify app
+     *
+     * @return string
+     */
+    public function fetchAuthUrl()
+    {
+        $state = $this->getState();
+
+        $authUrl = $this->getAuthUrl($state);
+
+        return $authUrl;
     }
 
 }
