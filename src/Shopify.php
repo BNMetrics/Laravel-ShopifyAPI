@@ -14,14 +14,14 @@ class Shopify extends ShopifyAuth
 
 
     /**
-     * Set the subdomain and request Path
+     * Set the shop Url and request Path
      *
-     * @param String $subdomain
+     * @param String $shopURL
      * @param Array $scope
      *
      * @return $this
      */
-    public function make($subdomain, array $scope)
+    public function make($shopURL, array $scope)
     {
 
         $allScope = $this->getAllScopes();
@@ -30,7 +30,7 @@ class Shopify extends ShopifyAuth
             throw New InvalidArgumentException( 'invalid Scope' );
         }
 
-        $this->apiCall = $this->subdomain( $subdomain )->scopes( $scope );
+        $this->apiCall = $this->shopURL( $shopURL )->scopes( $scope );
         $this->requestPath = $this->requestPath();
 
         return $this;

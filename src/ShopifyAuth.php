@@ -9,23 +9,23 @@ use Laravel\Socialite\Two\User;
 class ShopifyAuth extends AbstractProvider
 {
 
-    protected $subdomain;
+    protected $shopURL;
 
-    protected $adminPath = ".myshopify.com/admin/";
+    protected $adminPath = "/admin/";
 
     protected $userUrl;
 
     protected $requestPath;
 
     /**
-     * Set the subdomain for the API request
+     * Set the shop URL for the API request
      *
-     * @param Request $subdomain
+     * @param Request $shopURL
      * @return $this
      */
-    public function subdomain($subdomain)
+    public function shopURL($shopURL)
     {
-        $this->subdomain = $subdomain;
+        $this->shopURL = $shopURL;
 
         return $this;
     }
@@ -37,8 +37,8 @@ class ShopifyAuth extends AbstractProvider
      */
     public function requestPath()
     {
-        if($this->subdomain != null)
-            $this->requestPath = 'https://' . $this->subdomain . $this->adminPath;
+        if($this->shopURL != null)
+            $this->requestPath = 'https://' . $this->shopURL . $this->adminPath;
 
         return $this->requestPath;
     }
@@ -64,7 +64,7 @@ class ShopifyAuth extends AbstractProvider
     protected function getTokenUrl()
     {
         // 'https://example.myshopify.com/admin/oauth/access_token'
-        return 'https://' . $this->subdomain . $this->adminPath . "oauth/access_token";
+        return 'https://' . $this->shopURL . $this->adminPath . "oauth/access_token";
     }
 
     /**
@@ -75,7 +75,7 @@ class ShopifyAuth extends AbstractProvider
      */
     protected function getUserByToken($token)
     {
-        $userUrl = 'https://' . $this->subdomain . $this->adminPath . "shop.json";
+        $userUrl = 'https://' . $this->shopURL . $this->adminPath . "shop.json";
 
 
         $response = $this->getHttpClient()->get(
