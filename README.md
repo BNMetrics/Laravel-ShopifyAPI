@@ -59,13 +59,13 @@ use Shopify;
 
 Class myShopify extends Controller
 {
-  protected $subdomain = "example";
+  protected $shop = "example.myshopify.com";
   protected $foo;
   protected $scopes = ['read_products','read_themes'];
   
   public function getPermission()
   {
-    $this->foo = Shopify::make($this->subdomain, $this->scope);
+    $this->foo = Shopify::make($this->shop, $this->scope);
     return $this->foo->redirect();
   }
   
