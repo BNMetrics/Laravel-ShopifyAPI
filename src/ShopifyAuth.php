@@ -23,7 +23,7 @@ class ShopifyAuth extends AbstractProvider
      * @param Request $shopURL
      * @return $this
      */
-    public function shopURL($shopURL)
+    public function setShopURL($shopURL)
     {
         $this->shopURL = $shopURL;
 
@@ -120,4 +120,19 @@ class ShopifyAuth extends AbstractProvider
 
         ];
     }
+
+    /**
+     * this method is for when you need to make an embedded shopify app
+     *
+     * @return string
+     */
+    public function fetchAuthUrl()
+    {
+        $state = $this->getState();
+
+        $authUrl = $this->getAuthUrl($state);
+
+        return $authUrl;
+    }
+
 }

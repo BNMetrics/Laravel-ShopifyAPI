@@ -3,8 +3,10 @@
 namespace BNMetrics\Shopify;
 
 use Exception;
+use GuzzleHttp\Client;
 
-class Shopify extends ShopifyAuth
+
+class Shopify
 {
     protected $user;
 
@@ -12,6 +14,19 @@ class Shopify extends ShopifyAuth
 
     protected $apiCall;
 
+    protected $shopifyAuth;
+
+    protected $httpClient;
+
+
+    /**
+     * Shopify constructor.
+     * @param Object ShopifyAuth $shopifyAuth
+     */
+    public function __construct(ShopifyAuth $shopifyAuth)
+    {
+        $this->shopifyAuth = $shopifyAuth;
+    }
 
     /**
      * Set the shop Url and request Path
@@ -30,8 +45,9 @@ class Shopify extends ShopifyAuth
             throw New InvalidArgumentException( 'invalid Scope' );
         }
 
-        $this->apiCall = $this->shopURL( $shopURL )->scopes( $scope );
-        $this->requestPath = $this->requestPath();
+        $this->apiCall = $this->shopifyAuth->setShopURL( $shopURL )->scopes( $scope );
+
+        $this->requestPath = $this->shopifyAuth->requestPath();
 
         return $this;
     } 
@@ -75,7 +91,7 @@ class Shopify extends ShopifyAuth
         $responsePath = $this->requestPath . $endpoint . $this->getParams( $params );
 
         $response = $this->getHttpClient()->get( $responsePath,
-                                            $this->getResponseOptions($this->user->token));
+                                            $this->shopifyAuth->getResponseOptions($this->user->token));
 
         $return = json_decode($response->getBody(), true);
 
@@ -84,7 +100,7 @@ class Shopify extends ShopifyAuth
 
 
     /**
-     *
+     * Get the request url parameters
      *
      * @param array|null $params
      * @return null|string
@@ -110,13 +126,33 @@ class Shopify extends ShopifyAuth
      *
      * @return string
      */
-    public function fetchAuthUrl()
+    public function getAuthUrl()
     {
-        $state = $this->getState();
+        $this->shopifyAuth->fetchAuthUrl();
+    }
 
-        $authUrl = $this->getAuthUrl($state);
+    /**
+     * Get a instance of the Guzzle HTTP client.
+     *
+     * @return \GuzzleHttp\Client
+     */
+    protected function getHttpClient()
+    {
+        if (is_null($this->httpClient)) {
+            $this->httpClient = new Client();
+        }
 
-        return $authUrl;
+        return $this->httpClient;
+    }
+
+    /**
+     * Redirect the user of the application to the provider's authentication screen.
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function redirect()
+    {
+        return $this->shopifyAuth->redirect();
     }
 
 }

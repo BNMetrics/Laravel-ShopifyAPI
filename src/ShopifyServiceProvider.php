@@ -2,6 +2,7 @@
 
 namespace BNMetrics\Shopify;
 
+use BNMetrics\Shopify\ShopifyAuth;
 use Illuminate\Support\ServiceProvider;
 
 
@@ -31,8 +32,10 @@ class ShopifyServiceProvider extends ServiceProvider
         $this->app->singleton(
             Shopify::class, function($app) {
 
-             return new Shopify($app['request'], config( 'shopify.key' ),
+             $shopifyAuth = new ShopifyAuth($app['request'], config( 'shopify.key' ),
                                 config( 'shopify.secret' ), config( 'shopify.redirectURL' ));
+
+             return new Shopify($shopifyAuth);
 
         });
     }
