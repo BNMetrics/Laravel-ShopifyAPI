@@ -2,11 +2,9 @@
 
 namespace BNMetrics\Shopify;
 
-
-use BNMetrics\Shopify\Billing\ShopifyBillingManager;
-use BNMetrics\Shopify\Contracts\BillingFactory;
 use Illuminate\Support\ServiceProvider;
-
+use BNMetrics\Shopify\Contracts\BillingFactory;
+use BNMetrics\Shopify\Billing\ShopifyBillingManager;
 
 class BillingServiceProvider extends ServiceProvider
 {

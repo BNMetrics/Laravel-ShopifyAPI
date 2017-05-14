@@ -3,8 +3,8 @@
 namespace BNMetrics\Shopify;
 
 use Illuminate\Http\Request;
-use Laravel\Socialite\Two\AbstractProvider;
 use Laravel\Socialite\Two\User;
+use Laravel\Socialite\Two\AbstractProvider;
 
 class ShopifyAuth extends AbstractProvider
 {
@@ -13,12 +13,11 @@ class ShopifyAuth extends AbstractProvider
 
     protected $adminPath = "/admin/";
 
-    protected $userUrl;
-
     protected $requestPath;
 
     /**
-     * Set the shop URL for the API request
+     * Set the myshopify domain URL for the API request.
+     * eg. example.myshopify.com
      *
      * @param Request $shopURL
      * @return $this

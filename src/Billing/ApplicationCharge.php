@@ -1,7 +1,6 @@
 <?php
 namespace BNMetrics\Shopify\Billing;
 
-
 use BNMetrics\Shopify\Contracts\Billing;
 
 class ApplicationCharge extends AbstractBilling implements Billing

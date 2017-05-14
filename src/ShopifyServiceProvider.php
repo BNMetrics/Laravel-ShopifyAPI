@@ -2,9 +2,8 @@
 
 namespace BNMetrics\Shopify;
 
-use BNMetrics\Shopify\Contracts\ShopifyContract;
 use Illuminate\Support\ServiceProvider;
-
+use BNMetrics\Shopify\Contracts\ShopifyContract;
 
 class ShopifyServiceProvider extends ServiceProvider
 {

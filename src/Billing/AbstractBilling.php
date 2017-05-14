@@ -2,12 +2,12 @@
 
 Namespace BNMetrics\Shopify\Billing;
 
-use BNMetrics\Shopify\Contracts\Billing;
 use Exception;
 use GuzzleHttp\Client;
-use BNMetrics\Shopify\Contracts\ShopifyContract as Shopify;
 use GuzzleHttp\ClientInterface;
 use Laravel\Socialite\Two\User;
+use BNMetrics\Shopify\Contracts\Billing;
+use BNMetrics\Shopify\Contracts\ShopifyContract as Shopify;
 
 abstract class AbstractBilling implements Billing
 {
@@ -58,7 +58,7 @@ abstract class AbstractBilling implements Billing
             $this->setRequestPath($authorized->name);
             $token = $authorized->token;
         }
-        else throw new Exception('Param must be an instance of Shopify or Laravel\Socialite\Two\User');
+        else throw new \InvalidArgumentException('Argumant must be an instance of Shopify or Laravel\Socialite\Two\User');
 
         $this->options = $options;
 
@@ -156,7 +156,7 @@ abstract class AbstractBilling implements Billing
 
 
     /**
-     * activate a specific charge
+     * Activate a specific charge
      *
      * @param string $myshopify myshopify domain
      * @param string $token access token
@@ -183,9 +183,9 @@ abstract class AbstractBilling implements Billing
     }
 
     /**
-     *  get the property options value
+     *  Get the property options value
      *
-     * @return string
+     * @return array
      * @throws Exception
      */
     protected function getOptions()
@@ -224,7 +224,6 @@ abstract class AbstractBilling implements Billing
         return [
                 'Accept' => 'application/json',
                 'X-Shopify-Access-Token' => $token ];
-
     }
 
 

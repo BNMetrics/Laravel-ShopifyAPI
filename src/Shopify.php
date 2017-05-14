@@ -2,9 +2,9 @@
 
 namespace BNMetrics\Shopify;
 
-use BNMetrics\Shopify\Contracts\ShopifyContract;
 use Exception;
 use GuzzleHttp\Client;
+use BNMetrics\Shopify\Contracts\ShopifyContract;
 
 
 class Shopify implements ShopifyContract

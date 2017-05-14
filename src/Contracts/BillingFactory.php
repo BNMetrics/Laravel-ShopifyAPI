@@ -1,6 +1,5 @@
 <?php
 
-
 namespace BNMetrics\Shopify\Contracts;
 
 interface BillingFactory

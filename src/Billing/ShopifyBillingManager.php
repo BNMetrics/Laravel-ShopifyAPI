@@ -1,6 +1,5 @@
 <?php
 
-
 namespace BNMetrics\Shopify\Billing;
 
 use InvalidArgumentException;
