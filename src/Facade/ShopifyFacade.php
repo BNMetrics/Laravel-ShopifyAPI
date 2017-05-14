@@ -2,8 +2,7 @@
 
 namespace BNMetrics\Shopify\Facade;
 
-
-use BNMetrics\Shopify\Shopify;
+use BNMetrics\Shopify\Contracts\ShopifyContract as Shopify;
 use Illuminate\Support\Facades\Facade;
 
 class ShopifyFacade extends Facade

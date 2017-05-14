@@ -2,11 +2,12 @@
 
 namespace BNMetrics\Shopify;
 
+use BNMetrics\Shopify\Contracts\ShopifyContract;
 use Exception;
 use GuzzleHttp\Client;
 
 
-class Shopify
+class Shopify implements ShopifyContract
 {
     protected $user;
 
@@ -45,7 +46,7 @@ class Shopify
             throw New InvalidArgumentException( 'invalid Scope' );
         }
 
-        $this->apiCall = $this->shopifyAuth->setShopURL( $shopURL )->scopes( $scope );
+        $this->apiCall = $this->shopifyAuth->stateless()->setShopURL( $shopURL )->scopes( $scope );
 
         $this->requestPath = $this->shopifyAuth->requestPath();
 
@@ -153,6 +154,17 @@ class Shopify
     public function redirect()
     {
         return $this->shopifyAuth->redirect();
+    }
+
+    /**
+     * get the request path of the requested shop
+     * 'example.myshopify.com/admin/'
+     *
+     * @return string
+     */
+    public function getRequestPath()
+    {
+        return $this->requestPath;
     }
 
 }
