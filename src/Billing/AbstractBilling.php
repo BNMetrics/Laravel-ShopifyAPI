@@ -47,6 +47,9 @@ abstract class AbstractBilling implements Billing
     {
         if($authorized instanceof Shopify)
         {
+            if(!$authorized->getUser())
+                throw new Exception('Cannot charge user without getting their installation permissions!');
+
             $this->setRequestPath( $authorized );
             $token = $authorized->getUser()->token;
         }
@@ -55,7 +58,7 @@ abstract class AbstractBilling implements Billing
             $this->setRequestPath($authorized->name);
             $token = $authorized->token;
         }
-        else throw new Exception('Must be a user who has permitted to install the app');
+        else throw new Exception('Param must be an instance of Shopify or Laravel\Socialite\Two\User');
 
         $this->options = $options;
 
