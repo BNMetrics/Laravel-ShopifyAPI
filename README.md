@@ -156,7 +156,7 @@ public function activated(Request $request)
     $activated = \ShopifyBilling::driver('RecurringBilling')
             ->activate($user->name, $user->token, $request->get('charge_id'));
     
-    return redirect(/myapp-homepage);
+    return redirect('/myapp-homepage');
 }
 ```
 activate method handles all "status", not only 'accepted', but also when user declines the charge;
@@ -178,7 +178,7 @@ public function activated(Request $request)
     
     \ShopifyBilling::driver('UsageCharge')->setBase($activated)->create($user, $usageOption);
     
-    return redirect(/myapp-homepage);
+    return redirect('/myapp-homepage');
 
 }
 ```
