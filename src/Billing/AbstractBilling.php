@@ -242,6 +242,27 @@ abstract class AbstractBilling implements Billing
 
 
     /**
+     * get the charge type of the created charge
+     *
+     * @return string
+     */
+    public function getChargeType()
+    {
+        return $this->chargeType;
+    }
+
+    /**
+     * Get the information for the activated charge
+     *
+     * @return array
+     */
+    public function getActivated()
+    {
+        if($this->activated != null) return $this->activated;
+        else throw new Exception('Charge must be activated');
+    }
+
+    /**
      *  Set the request path of the API call
      *
      *
