@@ -83,7 +83,15 @@ Class myShopify extends Controller
 }
 ```
 
-Note: As I have been encountering the InvalidStateException from Laravel Socialite, I have not yet found a way around except for setting the state the same as the session in the controller.
+Alternatively, if you already have a token to a specific shopify domain.
+You can retrieve the API response by using the retrieve() method like so:
+```php
+$this->foo = Shopify::retrieve($this->shop, $access_token);
+
+//Get the user information
+$user = $this->foo->getUser();
+```
+
 
 Next you will need to make two routes:
 ```php
