@@ -30,7 +30,7 @@ class Shopify implements ShopifyContract
     }
 
     /**
-     * Set the shop Url and request Path
+     * Set the shop Url and request Path, for the first time installation
      *
      * @param String $shopURL
      * @param Array $scope
@@ -51,7 +51,29 @@ class Shopify implements ShopifyContract
         $this->requestPath = $this->shopifyAuth->requestPath();
 
         return $this;
-    } 
+    }
+
+
+    /**
+     * Alternative to make()
+     * To retrive a shop information by the ShopURL and the Access Token
+     *
+     * Method chain starts either as Shopify::make() or Shopify::retrieve()
+     *
+     * @param $shopURL
+     * @param $token
+     * @return $this
+     */
+    public function retrieve($shopURL, $token)
+    {
+        $this->apiCall = $this->shopifyAuth->stateless()->setShopURL( $shopURL );
+
+        $this->requestPath = $this->shopifyAuth->requestPath();
+
+        $this->user = $this->apiCall->userFromToken($token);
+
+        return $this;
+    }
 
     /**
      * @return $this with validated user info
