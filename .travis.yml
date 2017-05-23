@@ -11,8 +11,5 @@ before_script:
   - travid_retry composer self-update
   - travis_retry composer install --no-interaction --prefer-dist --no-suggest
 
-<<<<<<< HEAD
 script: vendor/bin/phpunit
-=======
-script: vendor/bin/phpunit --verbose
->>>>>>> 4e07364c7a846bb6051bfb5b799fb5dfbd60a7f9
+
