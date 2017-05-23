@@ -1,5 +1,5 @@
 # Laravel Shopify API Wrapper
-This Package provides a easy way for you to building Shopify Apps with Laravel 5. The OAuth authentication is extended upon Laravel's Socialite. 
+This Package provides a easy way for you to building Shopify Apps with Laravel 5. The OAuth authentication is extended upon Laravel's Socialite.
 
 ### This package supports both public and private apps, including billing.
  
