@@ -18,7 +18,7 @@ Or add to your Laravel project composer.json file:
 ```json
 "require": {
 
-    "bnmetrics/laravel-shopify-api" : "1.0.*",
+    "bnmetrics/laravel-shopify-api" : "~1.0",
 }
 ```
 To publish the shopify.php configuration file to `app/config` run:
