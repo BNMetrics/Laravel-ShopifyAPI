@@ -11,4 +11,4 @@ before_script:
   - travid_retry composer self-update
   - travis_retry composer install --no-interaction --prefer-source --dev
 
-script: vendor/bin/phpunit
+script: vendor/bin/phpunit 
