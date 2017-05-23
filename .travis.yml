@@ -8,6 +8,6 @@ php:
 sudo: false
 
 before_script:
-  - travis_retry composer install --no-interaction --prefer-source --dev
+  - travis_retry composer install --no-interaction --prefer-dist --dev
 
 script: vendor/bin/phpunit 
