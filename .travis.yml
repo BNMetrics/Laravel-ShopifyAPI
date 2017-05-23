@@ -7,6 +7,8 @@ php:
 
 sudo: false
 
-install: travis_retry composer install --no-interaction --prefer-dist --no-suggest
+before_script:
+  - travid_retry composer self-update
+  - travis_retry composer install --no-interaction --prefer-dist --no-suggest
 
-script: vendor/bin/phpunit --verbose
+script: vendor/bin/phpunit
