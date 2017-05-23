@@ -3,7 +3,7 @@
     "description": "Shopify API wrapper for laravel",
     "keywords": ["shopify", "laravel"],
     "license": "MIT",
-    "author": [
+    "authors": [
         {
           "name": "Luna Chen",
           "email": "luna@bonnenuitmetrics.com"
