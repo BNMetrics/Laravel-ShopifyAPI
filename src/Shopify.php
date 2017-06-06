@@ -4,11 +4,15 @@ namespace BNMetrics\Shopify;
 
 use Exception;
 use GuzzleHttp\Client;
+use InvalidArgumentException;
+use BNMetrics\Shopify\Traits\ResponseOptions;
 use BNMetrics\Shopify\Contracts\ShopifyContract;
-
 
 class Shopify implements ShopifyContract
 {
+
+    use ResponseOptions;
+
     protected $user;
 
     protected $requestPath;
@@ -100,27 +104,105 @@ class Shopify implements ShopifyContract
     /**
      * Get the response from Shopify API Call
      *
-     * @param str $endpoint
+     * @param string $endpoint
      * @param optional $params
      * @return API response in JSON
      *
      */
-    public function response($endpoint, $params = null)
+    public function get($endpoint, $params = null)
     {
 
-        if($this->user == null)
-            throw new Exception("Please authenticate user first!");
+        return $this->APICallWithoutOptions('get', $endpoint, $params);
+    }
 
-        $responsePath = $this->requestPath . $endpoint . $this->getParams( $params );
 
-        $response = $this->getHttpClient()->get( $responsePath,
-                                            $this->shopifyAuth->getResponseOptions($this->user->token));
+    /**
+     * Remove a specific item from the database.
+     *
+     * @param $endpoint
+     * @return mixed, API response in JSON
+     */
+    public function delete($endpoint, $params = null)
+    {
+        return $this->APICallWithoutOptions('delete', $endpoint, $params);
+    }
+
+
+    /**
+     *
+     *
+     * @param $endpoint
+     * @param $options
+     * @return mixed, API response in JSON
+     */
+    public function modify($endpoint, $options, $params = null)
+    {
+        return $this->APICallWithOptions('put',$endpoint, $options, $params);
+    }
+
+
+    /**
+     * Create an item
+     *
+     * @param $endpoint
+     * @param $options
+     * @return, API response in JSON
+     */
+    public function create($endpoint, $options, $params = null)
+    {
+        return $this->APICallWithOptions('post',$endpoint, $options, $params);
+    }
+
+
+    /**
+     *
+     * API call function for endpoints requires no request body to be passed
+     * $params is optional for specific GET request
+     *
+     * @param $requestType
+     * @param $endpoint
+     * @param null $params
+     * @return mixed
+     */
+    protected function APICallWithoutOptions($requestType, $endpoint, $params = null)
+    {
+        $response = $this->getHttpClient()->{$requestType}($this->buildRequestUrl($endpoint, $params),
+            [
+                'headers' => $this->getResponseHeaders($this->user->token)
+            ]);
 
         $return = json_decode($response->getBody(), true);
 
         return $return;
+
     }
 
+    /**
+     * API call function for endpoints that require request body
+     *
+     *
+     * @param $requestType
+     * @param $endpoint
+     * @param $options
+     * @return mixed
+     */
+    protected function APICallWithOptions($requestType, $endpoint, $options,  $params = null)
+    {
+        $postkey = $this->httpClientVersionCheck();
+
+
+        $response = $this->getHttpClient()->{$requestType}($this->buildRequestUrl($endpoint, $params), [
+
+            'headers' => $this->getResponseHeaders($this->user->token),
+            $postkey =>  $options
+
+        ]);
+
+        $return = json_decode($response->getBody(), true);
+
+        return $return;
+
+    }
 
     /**
      * Get the request url parameters
@@ -132,6 +214,25 @@ class Shopify implements ShopifyContract
     {
         if ($params == null) return null;
         return '?' . http_build_query( $params, '', '&' );
+    }
+
+
+    /**
+     *  Build the URL for the specific API request
+     *
+     * @param string $endpoint
+     * @param optional $params
+     * @return string
+     * @throws Exception
+     */
+    protected function buildRequestUrl($endpoint, $params = null)
+    {
+        if($this->user == null)
+            throw new Exception("Please authenticate user first!");
+
+        $requestPath = $this->requestPath . $endpoint . ".json". $this->getParams( $params );
+
+        return $requestPath;
     }
 
     /**
@@ -187,6 +288,69 @@ class Shopify implements ShopifyContract
     public function getRequestPath()
     {
         return $this->requestPath;
+    }
+
+
+    /**
+     * get the API result for the specific endpoints
+     *
+     * @param $name Method name. eg. "getProductAll"
+     * @param null $parseArgs. optional; ids, options, filter params.
+     * @return mixed
+     *
+     */
+    public function __call($name, $args = null)
+    {
+        $endpoints = new Endpoints;
+
+        $currAction = $endpoints->callbackAction($name);
+
+        $parseArrs = array_values(
+            array_filter($args, function($e) {
+                return is_array($e) ? $e : null;
+            })
+        );
+
+        /*
+         * retrieve other params such as tier1 id and tier2 id, and also
+         * the additional uri pieces that are not under generic
+         * /count, /{id}
+         *
+         */
+        $parseArgsSerialized = array_diff(array_map('serialize', $args),
+            array_map('serialize',$parseArrs));
+        $unserialized = array_map('unserialize', $parseArgsSerialized);
+
+
+        $parseArgs = [];
+        foreach($unserialized as $items) {
+            if(is_integer($items)) $parseArgs[] = $items;
+            else $additionalUri = '/' . $items;
+        }
+
+        if(isset($additionalUri)) $endpoint = $endpoints->$name(...$parseArgs) . $additionalUri;
+        else $endpoint = $endpoints->$name(...$parseArgs);
+
+        /*
+         * set the options and params to be passed
+         */
+        $options = null;
+        $params = null;
+        foreach($parseArrs as $arr)
+        {
+            if(array_keys($arr)[0] == $endpoints->categoryKey) $options = $arr;
+            else $params = $arr;
+        }
+
+
+        // call get(), create(), modify() and delete() methods
+        if($currAction == 'create' && $currAction == 'modify')
+        {
+            if($options == null) throw new Exception('invalid option passed');
+
+            return $this->{$currAction}($endpoint, $options);
+        }
+        else return $this->{$currAction}($endpoint, $params);
     }
 
 }

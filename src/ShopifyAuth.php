@@ -2,12 +2,14 @@
 
 namespace BNMetrics\Shopify;
 
+use BNMetrics\Shopify\Traits\ResponseOptions;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Two\User;
 use Laravel\Socialite\Two\AbstractProvider;
 
 class ShopifyAuth extends AbstractProvider
 {
+    use ResponseOptions;
 
     protected $shopURL;
 
@@ -77,8 +79,10 @@ class ShopifyAuth extends AbstractProvider
         $userUrl = 'https://' . $this->shopURL . $this->adminPath . "shop.json";
 
 
-        $response = $this->getHttpClient()->get(
-            $userUrl, $this->getResponseOptions($token));
+        $response = $this->getHttpClient()->get( $userUrl,
+                [
+                    'headers' => $this->getResponseHeaders($token)
+                ]);
 
         $user = json_decode($response->getBody(), true);
 
@@ -102,23 +106,6 @@ class ShopifyAuth extends AbstractProvider
         ]);
     }
 
-
-    /**
-     * Get the request header with the access_token
-     *
-     * @param $token
-     * @return array
-     */
-    public function getResponseOptions($token)
-    {
-        return [
-            'headers' => [
-                'Accept' => 'application/json',
-                'X-Shopify-Access-Token' => $token,
-            ]
-
-        ];
-    }
 
     /**
      * this method is for when you need to make an embedded shopify app

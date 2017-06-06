@@ -2,15 +2,16 @@
 
 Namespace BNMetrics\Shopify\Billing;
 
+use BNMetrics\Shopify\Traits\ResponseOptions;
 use Exception;
 use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
 use Laravel\Socialite\Two\User;
 use BNMetrics\Shopify\Contracts\Billing;
 use BNMetrics\Shopify\Contracts\ShopifyContract as Shopify;
 
 abstract class AbstractBilling implements Billing
 {
+    use ResponseOptions;
 
     protected $options = [];
 
@@ -45,6 +46,7 @@ abstract class AbstractBilling implements Billing
      */
     public function create($authorized, array $options)
     {
+
         if($authorized instanceof Shopify)
         {
             if(!$authorized->getUser())
@@ -213,19 +215,6 @@ abstract class AbstractBilling implements Billing
         return $this->httpClient;
     }
 
-    /**
-     * Get the response header of the API request
-     *
-     * @param $token
-     * @return array
-     */
-    protected function getResponseHeaders($token)
-    {
-        return [
-                'Accept' => 'application/json',
-                'X-Shopify-Access-Token' => $token ];
-    }
-
 
     /**
      * Get the created charge of this object
@@ -285,17 +274,5 @@ abstract class AbstractBilling implements Billing
         return $this;
     }
 
-
-    /**
-     * Check the guzzle http client version
-     *
-     * @return string
-     */
-    protected function httpClientVersionCheck()
-    {
-        $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
-
-        return $postKey;
-    }
 
 }
