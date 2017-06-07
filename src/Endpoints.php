@@ -17,6 +17,10 @@ class Endpoints
 
     protected $isTier3;
 
+    protected $actions = ['get', 'create', 'modify', 'delete'];
+
+    protected $suffix = ['All', 'ById', 'Count'];
+
 
     public function __construct ()
     {
@@ -244,9 +248,7 @@ class Endpoints
      */
     public function callbackAction($name)
     {
-        $actions = ['get', 'create', 'modify', 'delete'];
-
-        return $this->getString($name, $actions);
+        return $this->getString($name, $this->actions);
     }
 
 
@@ -260,9 +262,8 @@ class Endpoints
      */
     protected function removeSuffix($name)
     {
-        $suffix = ['All', 'ById', 'Count'];
 
-        $currSuffix = $this->getString($name, $suffix);
+        $currSuffix = $this->getString($name, $this->suffix);
 
         return str_replace($currSuffix, '', $name);
     }
