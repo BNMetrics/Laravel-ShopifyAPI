@@ -81,7 +81,8 @@ Class myShopify extends Controller
     // Get user data, you can store it in the data base
     $user = $this->foo->auth()->getUser();
     
-    return $this->foo->auth()->response('products.json', ['fields'=>'id,images,title']);
+    //GET request to products.json
+    return $this->foo->auth()->get('products.json', ['fields'=>'id,images,title']);
   }
 }
 ```
