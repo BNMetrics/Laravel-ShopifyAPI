@@ -54,7 +54,7 @@ Also add the `Shopify` facade in your `aliases` array in `app/config/app.php`:
 ```
 
 ## Basic Usage
-Now, you are ready to make a shopify app! here is an example of how it might be used in a controller to retrive information from a shop:
+Now, you are ready to make a shopify app! here is an example of how it might be used in a controller to retrieve information from a shop via GET request to the API endpoint:
 ```php
 <?php
 
@@ -101,6 +101,58 @@ Next you will need to make two routes:
 ```php
 Route::get('/oauth/authorize', 'myshopify@getResponse');
 Route::get('/shopify', 'myShopify@getPermission');
+```
+
+## CRUD requests to the API endpoints
+As of version 1.0.3, GET, PUT, POST, DELETE requests are supported for this package. To make requests, simply call the respective methods following the URL structure of of each endpoints, adding suffix such as "All", "Count", "ById".
+
+API endpoints are referred to as "tiers", for example, 
+- products endpoints('admin/products.json', 'admin/products/{id}.json') are tier 1;
+
+- productsImages endpoints('admin/products/{product_id}/images.json', 'admin/products/{product_id}/images/{image_id}.json') are tier 2;
+
+- Currently, only ordersFulfillmentsEvents have tier 3 ('admin/orders/{order_id}/fulfilments/{fulfillment_id}/events.json', 'admin/orders/{order_id}/fulfilments/{fulfillment_id}/events/{event_id}.json');
+
+Below is an example of how to make requests to endpoints:
+
+```php
+//assuming $shop is already oAuth verified Shopify.php object
+
+//GET request
+$shop->getProductsAll();
+$shop->getProductsById(2324564);
+
+
+//POST Request
+//Options to be passed as request body are manditory for some API endpoints
+$options = [
+'product' => [
+    'title' => 'my cool products',
+    'body_html' => '<p> my cool product! </p>',
+    'vendor' => 'My Shopify Shop',
+    'images' => [
+         'src' => 'https://example.com/my_product.jpg'
+    ],
+  ]
+];
+$shop->createProducts($options);
+
+//PUT (upload/update an image source)
+$modifyOptions = [
+   'asset' => [
+       'key' => 'assets/example.jpg',
+       'src' => 'https://www.example.com/example.jpg'
+   
+   ]
+];
+$shop->modifyThemesAssets($modifyOptions);
+
+
+
+//DELETE
+$productID = 121421;
+$imageID = 323546;
+$shop->deleteProductsImages($productID, $imageID);
 ```
 
 ## Billing
