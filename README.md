@@ -155,6 +155,13 @@ $imageID = 323546;
 $shop->deleteProductsImages($productID, $imageID);
 ```
 
+### Config file
+More endpoints can also be added to ``shopify.php`` config file $endpoints array following the same pattern. 
+- First Tier names should be the array key of the first dimension, and the array values are tier 2;
+- if the endpoint has a tier 3 endpoint, add a key ``'tier 3'``;
+- if the tier 2 endpoint node does not need a tier 1 ID to be accessed, the endpoint can be indicated in the  ``'tierTwoWithoutId'`` array.
+
+
 ## Billing
 As of version 1.0.2, billing support has been added to this package. It supports all three of the billing options shopify provides:
 RecurringCharge, ApplicationCharge and UsageCharge.
