@@ -44,7 +44,7 @@ return [
         'pages' => ['metafields'],
 
         'orders' => [
-            'transactions', 'fullfilments', 'risks', 'tier3' => ['events']
+            'transactions', 'fulfillments', 'risks', 'tier3' => ['fulfillments' => 'events']
         ],
 
         'blogs' => [ 'articles' ],
