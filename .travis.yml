@@ -7,7 +7,7 @@ php:
 
 sudo: false
 
-before_script:
+before_install:
   - travis_retry composer install --no-interaction --prefer-dist --dev
 
 script: vendor/bin/phpunit 
