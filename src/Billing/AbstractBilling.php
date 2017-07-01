@@ -101,7 +101,17 @@ abstract class AbstractBilling implements Billing
      */
     public function redirect()
     {
-        return redirect($this->getCharge()[$this->chargeType]['confirmation_url']);
+        return redirect($this->getRedirectURL());
+    }
+
+    /**
+     * Get redirect URL of the billing location
+     *
+     * @return mixed
+     */
+    public function getRedirectURL()
+    {
+        return $this->getCharge()[$this->chargeType]['confirmation_url'];
     }
 
 
