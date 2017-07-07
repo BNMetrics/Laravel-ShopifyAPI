@@ -30,5 +30,15 @@
     "config": {
         "sort-packages": true,
         "preferred-install": "dist"
-    }
+    },
+     "extra": {
+         "laravel": {
+             "providers": [
+                 "BNMetrics\\Shopify\\ShopifyServiceProvider"
+             ],
+             "aliases": {
+                 "Shopify": "BNMetrics\\Shopify\\Facade\\ShopifyFacade"
+             }
+         }
+     }
 }
