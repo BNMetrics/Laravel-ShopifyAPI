@@ -43,7 +43,7 @@ return [
 
         'collects' => [],
 
-        'collection_listings' => [],
+        'collectionListings' => [],
 
         'scriptTags' => [],
 
