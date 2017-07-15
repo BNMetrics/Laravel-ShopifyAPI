@@ -39,6 +39,12 @@ return [
 
         'smartCollections' => [],
 
+        'customCollections' => [],
+
+        'collects' => [],
+
+        'collection_listings' => [],
+
         'scriptTags' => [],
 
         'pages' => ['metafields'],
