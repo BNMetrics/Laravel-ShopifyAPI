@@ -24,7 +24,7 @@ Or add to your Laravel project composer.json file:
 ```
 To publish the shopify.php configuration file to `app/config` run:
 ```bash
-php artisan vendor:publish --tag=shopify
+php artisan vendor:publish --provider='BNMetrics\Shopify\ShopifyServiceProvider'
 ```
 
 ## Configuration
