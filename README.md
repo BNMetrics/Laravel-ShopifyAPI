@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/BNMetrics/Laravel-ShopifyAPI.svg?branch=master)](https://travis-ci.org/BNMetrics/Laravel-ShopifyAPI)
 [![Latest Stable Version](https://poser.pugx.org/bnmetrics/laravel-shopify-api/v/stable)](https://packagist.org/packages/bnmetrics/laravel-shopify-api)
 
-This Package provides a easy way for you to building Shopify Apps with Laravel 5. The OAuth authentication is extended upon Laravel's Socialite.
+This Package provides a easy way for you to building [Shopify](https://www.shopify.com/?ref=developer-886210bf83bd9c41) Apps with Laravel 5. The OAuth authentication is extended upon Laravel's Socialite.
 
 ### This package supports both public and private apps, including billing.
  
