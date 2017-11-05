@@ -167,7 +167,7 @@ As of version 1.0.2, billing support has been added to this package. It supports
 RecurringCharge, ApplicationCharge and UsageCharge.
 
 
-If you are to use Billing for your Shopify app, Add the following onto your ``config/add.php`` file:
+If you are to use Billing for your Shopify app, Add the following onto your ``config/app.php`` file:
 
 Register the service provider in your `app/config/app.php`:
 
