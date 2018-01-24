@@ -27,7 +27,7 @@ trait ResponseOptions
      */
     protected function httpClientVersionCheck()
     {
-        $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
+        $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'json' : 'body';
 
         return $postKey;
     }
