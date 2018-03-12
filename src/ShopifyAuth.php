@@ -110,6 +110,19 @@ class ShopifyAuth extends AbstractProvider
         ]);
     }
 
+    /**
+     * Return current shopify api limit - 1 is lower
+     *
+     * @return int
+     */
+    public function checkCurrentApiLimit(): int
+    {
+        $limit = $this->responseHeaders['X-Shopify-Shop-Api-Call-Limit'] ??
+                 $this->responseHeaders['HTTP_X_SHOPIFY_SHOP_API_CALL_LIMIT'] ?? ['1/40'];
+
+        return (int)explode('/', $limit[0])[0];
+    }
+
 
     /**
      * this method is for when you need to make an embedded shopify app
