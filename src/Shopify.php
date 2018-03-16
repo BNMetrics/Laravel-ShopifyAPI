@@ -353,4 +353,19 @@ class Shopify implements ShopifyContract
         else return $this->{$currAction}($endpoint, $params);
     }
 
+    /**
+     * @return \BNMetrics\Shopify\ShopifyAuth
+     */
+    public function getShopifyAuth(): \BNMetrics\Shopify\ShopifyAuth
+    {
+        return $this->shopifyAuth;
+    }
+
+    /**
+     * @param \BNMetrics\Shopify\ShopifyAuth $shopifyAuth
+     */
+    public function setShopifyAuth(\BNMetrics\Shopify\ShopifyAuth $shopifyAuth): void
+    {
+        $this->shopifyAuth = $shopifyAuth;
+    }
 }
