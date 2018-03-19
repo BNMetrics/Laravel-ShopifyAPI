@@ -17,6 +17,8 @@ class ShopifyAuth extends AbstractProvider
 
     protected $requestPath;
 
+    protected $responseHeaders;
+
     /**
      * Set the myshopify domain URL for the API request.
      * eg. example.myshopify.com
@@ -86,6 +88,8 @@ class ShopifyAuth extends AbstractProvider
 
         $user = json_decode($response->getBody(), true);
 
+        $this->responseHeaders = $response->getHeaders();
+
         return $user['shop'];
     }
 
@@ -104,6 +108,19 @@ class ShopifyAuth extends AbstractProvider
             'email' => $user['email'],
             'avatar' => null
         ]);
+    }
+
+    /**
+     * Return current shopify api limit - 1 is lower
+     *
+     * @return int
+     */
+    public function checkCurrentApiLimit(): int
+    {
+        $limit = $this->responseHeaders['X-Shopify-Shop-Api-Call-Limit'] ??
+                 $this->responseHeaders['HTTP_X_SHOPIFY_SHOP_API_CALL_LIMIT'] ?? ['1/40'];
+
+        return (int)explode('/', $limit[0])[0];
     }
 
 
