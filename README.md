@@ -70,7 +70,7 @@ Class myShopify extends Controller
   
   public function getPermission()
   {
-    $this->foo = Shopify::make($this->shop, $this->scope);
+    $this->foo = Shopify::make($this->shop, $this->scopes);
     return $this->foo->redirect();
   }
   
@@ -82,7 +82,7 @@ Class myShopify extends Controller
     $user = $this->foo->auth()->getUser();
     
     //GET request to products.json
-    return $this->foo->auth()->get('products.json', ['fields'=>'id,images,title']);
+    return $this->foo->auth()->get('products', ['fields'=>'id,images,title']);
   }
 }
 ```
